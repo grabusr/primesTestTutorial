@@ -16,7 +16,8 @@ std::ostream& operator<<(std::ostream& stream, const primesPair& value)
 
     return stream;
 
-}
+}  
+
 
 namespace test
 {
