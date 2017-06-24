@@ -3,61 +3,49 @@
 //
 
 #include <gtest/gtest.h>
-#include <gmock/gmock-matchers.h>
+#include <gmock/gmock.h>
 #include <OnTheFlyPrimeTable.h>
 #include <PreCalculatedPrimeTable.h>
-#include <limits>
+#include <ostream>
+
+
+std::ostream& operator <<(std::ostream& stream, const primesPair& value)
+{
+    stream<<"\nSmall: "<<value.small;
+    stream<<"\tBig: "<<value.big;
+    return stream;
+}
+
+
 
 namespace test
 {
-using namespace testing;
+    using namespace testing;
 
-    TEST(TestGetNextPrime, TestNextPrimeNumberAfterZero)
+
+    MATCHER_P(PrimePairEq, expected,"")
     {
-        //given:
-        OnTheFlyPrimeTable sut;
-
-        //when:
-        const auto Result= sut.GetNextPrime(0);
-
-        //exoected:
-        EXPECT_THAT(Result,Eq(2));
+        return arg.small == expected.small && arg.big == expected.big;
     }
 
-    TEST(TestGetNextPrime, TestNextPrimeNumberAfterMinusTwo)
-    {
-        OnTheFlyPrimeTable sut;
-        const auto Result= sut.GetNextPrime(-2);
-        EXPECT_THAT(Result,Eq(-1));
-    }
 
-    TEST(TestGetNextPrime, TestNextPrimeNumberAfterTwo)
+    class OnTheFlyPrimeTableTest : public ::testing::Test
     {
-        OnTheFlyPrimeTable sut;
-        const auto Result= sut.GetNextPrime(2);
-       EXPECT_THAT(Result,Eq(3));
-    }
 
-    TEST(TestGetNextPrime, TestNextPrimeNumberAfterThree)
-    {
-        OnTheFlyPrimeTable sut;
-        const auto Result= sut.GetNextPrime(3);
-        EXPECT_THAT(Result,Eq(5));
-    }
+    };
 
-    TEST(TestGetNextPrime, TestNextPrimeNumberAfterTheBiggestNumberThatContainsInt)
+    TEST(OnTheFlyPrimeTableTest, PrimeTableGivesNearestSmallerPrimeAndNearestGreaterPrime)
     {
+        //given
         OnTheFlyPrimeTable sut;
-        const auto Result= sut.GetNextPrime(std::numeric_limits<int>::max());
-        EXPECT_THAT(Result,Eq(-1));
-    }
+        const primesPair expected_result(7, 11);
+        //when
+        const auto result = sut.GetSmallerAndGreaterPrimes(10);
 
-    TEST(TestGetNextPrime, TestIfNumberReturnedByNextPrimeNumberIsPrimeNumber)
-    {
-        OnTheFlyPrimeTable sut;
-        const auto Result= sut.GetNextPrime(10);
-        const auto ifPrimeNumber = sut.IsPrime(Result);
-        EXPECT_THAT(ifPrimeNumber,Eq(true));
+        //expected
+        EXPECT_THAT(result, PrimePairEq(expected_result));
+
+
     }
 
 

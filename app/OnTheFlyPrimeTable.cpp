@@ -24,3 +24,18 @@ int OnTheFlyPrimeTable::GetNextPrime(int p) const
 
     return -1;
 }
+
+primesPair OnTheFlyPrimeTable::GetSmallerAndGreaterPrimes(int number) const
+{
+
+    return primesPair();
+}
+
+
+primesPair::primesPair():
+small(-1),
+big(-1)
+{};
+
+primesPair::primesPair(int small, int big) : small(small), big(big) {};
+
