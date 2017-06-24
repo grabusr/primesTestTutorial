@@ -9,3 +9,5 @@ add_subdirectory(test)
 
 set(SOURCE_FILES main.cpp)
 add_executable(PrimesCalculator ${SOURCE_FILES})
+
+target_link_libraries(PrimesCalculator PrimesLib)
