@@ -8,6 +8,11 @@
 #include "PrimeCalculator.h"
 
 // Implementation #1 calculates the primes on-the-fly.
+struct primesPair
+{
+    int small;
+    int big;
+};
 class OnTheFlyPrimeTable : public PrimeCalculator
 {
 public:
