@@ -7,6 +7,10 @@
 
 #include "PrimeCalculator.h"
 
+struct primesPair{
+    int small, big;
+};
+
 // Implementation #1 calculates the primes on-the-fly.
 class OnTheFlyPrimeTable : public PrimeCalculator
 {
@@ -14,6 +18,8 @@ public:
     virtual bool IsPrime(int n) const;
 
     virtual int GetNextPrime(int p) const;
+
+    virtual primesPair GetSmallerAndGreaterPrimes(int number) const;
 };
 
 
