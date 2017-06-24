@@ -6,20 +6,27 @@
 
 #include <OnTheFlyPrimeTable.h>
 #include <PreCalculatedPrimeTable.h>
+#include <gmock/gmock-matchers.h>
+
+using ::testing::Eq;
 
 namespace test
 {
 
-TEST(ExampleTestSuite, SuccedTest)
+TEST(OnTheFlyPrimeTable, ReturnsValidNextPrime)
 {
-    OnTheFlyPrimeTable table;
-    SUCCEED();
+    OnTheFlyPrimeTable sut;
+    const auto result = sut.GetNextPrime(5);
+
+    EXPECT_THAT(result, Eq(7));
 }
 
-TEST(ExampleTestSuite, FailingTest)
+TEST(OnTheFlyPrimeTable, ReturnsMinusOneWhenNumberIsNegative)
 {
-    PreCalculatedPrimeTable sut(100);
-    FAIL();
+    OnTheFlyPrimeTable sut;
+    const auto result = sut.GetNextPrime(-5);
+
+    EXPECT_THAT(result, Eq(-1));
 }
 
 } // namespace test
