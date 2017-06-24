@@ -3,23 +3,42 @@
 //
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include <ostream>
 
-#include <OnTheFlyPrimeTable.h>
+#include "OnTheFlyPrimeTable.h"
 #include <PreCalculatedPrimeTable.h>
+
+using namespace testing;
+
+std::ostream& operator << (std::ostream& stream, const PrimesPair& givenPair) {
+    stream << "Small: " << givenPair.small <<"\t";
+    stream << "Big: " << givenPair.big;
+
+    return stream;
+}
 
 namespace test
 {
+    MATCHER_P(PrimePairEq, givenPair, "") {
+        return arg.small == givenPair.small
+                && arg.big == givenPair.big;
+    }
 
-TEST(ExampleTestSuite, SuccedTest)
-{
-    OnTheFlyPrimeTable table;
-    SUCCEED();
-}
+    class OnTheFlyPrimeTableTest : public ::testing::Test {
 
-TEST(ExampleTestSuite, FailingTest)
-{
-    PreCalculatedPrimeTable sut(100);
-    FAIL();
-}
+    };
 
+
+    TEST_F(OnTheFlyPrimeTableTest, PrimeTableGivesNearestSmallerPrimeAndNearestGreaterPrime) {
+        //given:
+        OnTheFlyPrimeTable sut;
+        constexpr PrimesPair expectedPrimesPair = {7, 11};
+
+        //when:
+        const auto result = sut.GetSmallerAndGreaterPrimes(10);
+
+        //expected:
+        EXPECT_THAT(result, PrimePairEq(expectedPrimesPair));
+    }
 } // namespace test
